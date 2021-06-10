@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from aplic.models import Turma, Avaliacao, Nota, Aluno, Disciplina, Curso
+from aplic.models import Turma, Avaliacao, Nota, Usuario, Disciplina, Curso
 
 
 class TurmaSerializer(serializers.ModelSerializer):
@@ -24,10 +24,10 @@ class NotaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AlunoSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Aluno
+        model = Usuario
         fields = '__all__'
 
 

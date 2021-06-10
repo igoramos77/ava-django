@@ -151,6 +151,9 @@ LOGOUT_REDIRECT_URL = 'index'
 # Email teste console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# SETA O MODEL ALUNO PARA LOGIN
+AUTH_USER_MODEL = 'aplic.Usuario'
+
 """
 # Email produção
 EMAIL_HOST = 'localhost'

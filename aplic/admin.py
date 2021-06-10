@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Curso, Professor, Aluno, Disciplina, Turma, Avaliacao, Nota, Arquivo
+from .models import Curso, Professor, Usuario, Disciplina, Turma, Avaliacao, Nota, Arquivo
 
 
 @admin.register(Curso)
@@ -18,10 +18,10 @@ class ProfessorAdmin(admin.ModelAdmin):
     list_per_page = 15
 
 
-@admin.register(Aluno)
-class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('matricula', 'nome', 'curso')
-    search_fields = ('matricula', 'nome', 'curso')
+@admin.register(Usuario)
+class UsuarioAdmin(admin.ModelAdmin):
+    list_display = ('matricula', 'curso')
+    search_fields = ('matricula', 'curso')
     list_filter = ('curso',)
     list_per_page = 15
 

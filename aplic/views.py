@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from .models import Turma, Avaliacao, Nota, Aluno, Disciplina, Curso
+from .models import Turma, Avaliacao, Nota, Usuario, Disciplina, Curso
 
 from rest_framework import permissions
 
 from . import serializers
 
-from aplic.serializers import NotaSerializer, AlunoSerializer, DisciplinaSerializer, AvaliacaoSerializer
+from aplic.serializers import NotaSerializer, UsuarioSerializer, DisciplinaSerializer, AvaliacaoSerializer
 from rest_framework import viewsets
 
 
@@ -17,14 +17,14 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['user'] = Aluno.objects.get(id='1')
+        context['user'] = Usuario.objects.get(matricula=self.request.user)
 
-        context['turmas'] = Turma.objects.filter(alunos__id='1', ano='2021', semestre='1', periodo='5')\
+        context['turmas'] = Turma.objects.filter(alunos__matricula=context['user'], ano='2021', semestre=1, periodo=5) \
             .order_by('dia_da_semana').all()
 
         context['avaliacao_length'] = Avaliacao.objects.filter(tipo='Prova').count()
         context['trabalho_length'] = Avaliacao.objects.filter(tipo='Trabalho').count()
-        context['notas_lancadas'] = Nota.objects.filter(aluno='1').count()
+        context['notas_lancadas'] = Nota.objects.filter(aluno=context['user']).count()
 
         context['week'] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira',
                            'Sábado']
@@ -66,11 +66,11 @@ class DisciplinaViewSet(viewsets.ModelViewSet):
     serializer_class = DisciplinaSerializer
 
 
-class AlunoViewSet(viewsets.ModelViewSet):
+class UsuarioViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.DjangoModelPermissions,)
 
-    queryset = Aluno.objects.all()
-    serializer_class = AlunoSerializer
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
 
 
 class NotaViewSet(viewsets.ModelViewSet):

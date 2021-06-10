@@ -1,7 +1,10 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django_cryptography.fields import encrypt
 from uuid import uuid4
 from stdimage import StdImageField
+
+from .manager import UserManager
 
 
 def get_file_path(_instance, filename):
@@ -67,14 +70,28 @@ class Professor(Pessoa):
         verbose_name_plural = 'Professores'
 
 
-class Aluno(Pessoa):
-    matricula = models.IntegerField('Matricula', unique=True)
+class Usuario(AbstractUser):
+    matricula = models.CharField(unique=True, max_length=55)
     data_nascimento = models.DateField('Data de nascimento', blank=True, null=True, help_text='Formato DD/MM/AAAA')
     curso = models.ForeignKey(Curso, null=True, on_delete=models.DO_NOTHING)
+    foto = StdImageField(blank=True, null=True, delete_orphans=True, upload_to=get_file_path,
+                         variations={'thumbnail': {'width': 128, 'height': 128}}, )
+    username = None
+    first_name = models.CharField('Nome', max_length=55)
+    last_name = models.CharField('Sobrenome', max_length=155)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'matricula'
+    REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = 'Aluno'
-        verbose_name_plural = 'Alunos'
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+        ordering = ['id']
+
+    def __str__(self):
+        return f"{self.matricula}"
 
 
 class Disciplina(models.Model):
@@ -131,7 +148,7 @@ class Turma(models.Model):
     dia_da_semana = models.CharField('Dia da Semana', choices=DIAS, max_length=13)
     horario_de_inicio = models.TimeField('Horário de início')
     horario_de_termino = models.TimeField('Horário de término')
-    alunos = models.ManyToManyField(Aluno)
+    alunos = models.ManyToManyField(Usuario)
 
     class Meta:
         verbose_name = 'Turma'
@@ -189,7 +206,7 @@ class Avaliacao(models.Model):
 class Nota(models.Model):
     turma = models.ForeignKey(Turma, null=True, on_delete=models.SET_NULL)
     avaliacao = models.ForeignKey(Avaliacao, null=True, on_delete=models.SET_NULL)
-    aluno = models.ForeignKey(Aluno, null=True, on_delete=models.SET_NULL)
+    aluno = models.ForeignKey(Usuario, null=True, on_delete=models.SET_NULL)
     valor = models.DecimalField('Nota', max_digits=5, decimal_places=2)
 
     class Meta:
