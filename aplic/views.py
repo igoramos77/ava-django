@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from .models import Turma, Avaliacao, Nota, Usuario, Disciplina, Curso
+from .models import Turma, Avaliacao, Nota, Usuario, Disciplina, Curso, Configuracoes
 
 from rest_framework import permissions
 
@@ -17,9 +17,16 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
+        #    PEGA O USUARIO LOGADO
         context['user'] = Usuario.objects.get(matricula=self.request.user)
 
-        context['turmas'] = Turma.objects.filter(alunos__matricula=context['user'], ano='2021', semestre=1, periodo=5) \
+        # PEGA O ANO CURRENTE
+        context['ano_currente'] = Configuracoes.objects.values_list('ano_currente', flat=True).first()
+
+        # PEGA O SEMESTRE CURRENTE
+        context['semestre_currente'] = Configuracoes.objects.values_list('semestre_currente', flat=True).first()
+
+        context['turmas'] = Turma.objects.filter(alunos__matricula=context['user'], ano=context['ano_currente'], semestre=context['semestre_currente'], periodo=5) \
             .order_by('dia_da_semana').all()
 
         context['avaliacao_length'] = Avaliacao.objects.filter(tipo='Prova').count()

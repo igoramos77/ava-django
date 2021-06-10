@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Curso, Professor, Usuario, Disciplina, Turma, Avaliacao, Nota, Arquivo
+from .models import Curso, Professor, Usuario, Disciplina, Turma, Avaliacao, Nota, Arquivo, Configuracoes
 
 
 @admin.register(Curso)
@@ -60,4 +60,11 @@ class NotaAdmin(admin.ModelAdmin):
 class ArquivoAdmin(admin.ModelAdmin):
     list_display = ('tipo', 'nome_do_arquivo')
     search_fields = ('tipo', 'nome_do_arquivo')
+    list_per_page = 15
+
+
+@admin.register(Configuracoes)
+class ConfiguracoesAdmin(admin.ModelAdmin):
+    list_display = ('ano_currente', 'semestre_currente')
+    search_fields = ('ano_currente', 'semestre_currente')
     list_per_page = 15

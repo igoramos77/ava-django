@@ -215,3 +215,19 @@ class Nota(models.Model):
 
     def __str__(self):
         return f"{self.avaliacao} / {self.aluno} / {self.turma} / {self.valor}"
+
+
+class Configuracoes(models.Model):
+    SEMESTRES = (
+        ('1', '.1'),
+        ('2', '.2'),
+    )
+    ano_currente = models.IntegerField('Ano currente', max_length=4)
+    semestre_currente = models.CharField('Semestre', max_length=2, choices=SEMESTRES)
+
+    class Meta:
+        verbose_name = 'Configuração'
+        verbose_name_plural = 'Configurações'
+
+    def __str__(self):
+        return f"{self.ano_currente} / {self.semestre_currente}"
