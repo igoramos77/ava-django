@@ -1,0 +1,63 @@
+{% load static %}
+
+<section class="menu">
+  <div class="logo">
+    <img src="{% static './img/logo-uv.svg' %}" alt="Logo Universidade de Vassouras">
+  </div>
+  <div class="main-menu">
+    <ul>
+      <li class="dashboard">
+        {% if request.get_full_path == '/dashboard/' %}
+        <span class="active-m">
+        {% else %}
+        <span>
+        {% endif %}
+          <a href="{% url 'index' %}"><img src="{% static './img/menu-icons/dashboard.svg' %}" alt="Dashboard"></a>
+        </span>
+      </li>
+
+      <li data-active="estatisticas">
+        {% if request.get_full_path == '/dashboard/estatisticas/' %}
+        <span class="active-m">
+        {% else %}
+        <span>
+        {% endif %}
+          <a href="{% url 'estatisticas' %}"><img src="{% static './img/menu-icons/stats.svg' %}" alt="Estatisticas"></a>
+        </span>
+      </li>
+
+      <li data-active="calendario">
+        <span>
+          <a href="#"><img src="{% static './img/menu-icons/calendar.svg' %}" alt="calendario"></a>
+        </span>
+      </li>
+      <li data-active="disciplina">
+        <span>
+          <a href="disciplina.html"><img src="{% static './img/menu-icons/actives.svg' %}" alt="Atividades"></a>
+        </span>
+      </li>
+      <li data-active="mensagens">
+        <span>
+          <a href="#"><img src="{% static './img/menu-icons/messages.svg' %}" alt="Mensagens"></a>
+        </span>
+      </li>
+      <li data-active="forum">
+        <span>
+          <a href="#"><img src="{% static './img/menu-icons/forum.svg' %}" alt="fórum"></a>
+        </span>
+      </li>
+      <li data-active="setting">
+        <span>
+          <a href="#"><img src="{% static './img/menu-icons/settings.svg' %}" alt="Prefrências"></a>
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="logout">
+    <ul>
+      <li>
+        <a href="{% url 'logout' %}"><img src="{% static './img/menu-icons/logout.svg' %}" alt="Sair"></a>
+      </li>
+    </ul>
+  </div>
+</section>

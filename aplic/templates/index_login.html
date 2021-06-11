@@ -81,6 +81,7 @@
 
     .container {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       max-width: 80rem;
@@ -240,22 +241,47 @@
     .main .wrapper .method-action:hover {
       background: var(--color-light);
     }
+
+    /* The alert message box */
+.alert {
+  padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
   </style>
 
 </head>
 
 <body class="bg-default">
 
-  {% if messages %}
-      {% for m in messages%}
-        <div class="pulse alert alert-danger mt-3">
-          <strong>{{m}}</strong>
-        </div>
-      {% endfor %}
-  {% endif %}
-
   <main class="main">
       <div class="container">
+          {% if messages %}
+              {% for m in messages%}
+             <div class="alert">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              <strong>{{m}}</strong>
+            </div>
+              {% endfor %}
+          {% endif %}
           <section class="wrapper">
               <div class="heading">
                   <h1 class="text text-large">Ava 2.0</h1>

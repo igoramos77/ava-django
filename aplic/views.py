@@ -33,12 +33,10 @@ class IndexView(TemplateView):
         context['trabalho_length'] = Avaliacao.objects.filter(tipo='Trabalho').count()
         context['notas_lancadas'] = Nota.objects.filter(aluno=context['user']).count()
 
-        context['week'] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira',
-                           'Sábado']
+        context['week'] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
 
         return context
 
-    #   perguntar se nao posso implementar métodose passa-los para a view
     def get_avaliacao_length(self, **kwargs):
         avaliacao_length = super(IndexView, self).get_context_data(**kwargs)
         avaliacao_length['avaliacao_length'] = Avaliacao.objects.filter(tipo='Prova').count()
@@ -60,6 +58,19 @@ class DisciplinaView(TemplateView):
         context['turma'] = Turma.objects.get(id=kwargs['id'])
         context['avaliacoes'] = Avaliacao.objects.filter(turma_id=context['turma'], tipo='Prova')
         context['trabalhos'] = Avaliacao.objects.filter(turma_id=context['turma'], tipo='Trabalho')
+
+        return context
+
+
+class EstatisticasView(TemplateView):
+    template_name = 'estatisticas.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EstatisticasView, self).get_context_data(**kwargs)
+
+        context['user'] = Usuario.objects.get(matricula=self.request.user)
+
+        context['notas'] = Nota.objects.values('valor').filter(aluno=context['user'])
 
         return context
 
