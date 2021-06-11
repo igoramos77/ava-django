@@ -644,6 +644,7 @@ p {
     margin-top: 2rem;
     display: flex;
     justify-content: space-between;
+    background: #fff;
 }
 
 /* start TAB PANEL */

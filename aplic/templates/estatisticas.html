@@ -51,10 +51,9 @@
           <div class="row unity-subjects chart-content">
             <!-- chartjs -->
             <div class="line-chart col col-d-100 col-t-100 col-m-100">
-              <h5 style="margin-bottom: 1.2rem;">aaaa</h5>
-              {{notas}}
+              <h5 style="margin-bottom: 1.2rem;">Notas do semestre</h5>
               <div class="aspect-ratio">
-                <canvas id="chart"></canvas>
+                <canvas id="chart" style="height: 250px"></canvas>
               </div>
             </div>
             <!-- end chartjs -->
@@ -159,13 +158,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
   <script>
-    // ============================================
-// As of Chart.js v2.5.0
-// http://www.chartjs.org/docs
-// ============================================
 
 var chart    = document.getElementById('chart').getContext('2d'),
-    gradient = chart.createLinearGradient(0, 0, 0, 450);
+    gradient = chart.createLinearGradient(0, 0, 0, 800);
+
 
 gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
 gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
@@ -173,19 +169,20 @@ gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
 
 var data  = {
-    labels: [ 'Jan', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+    labels: [{% for labels in disciplinas_semestre %}'{{labels}}',{% endfor %} ],
     datasets: [{
-			label: 'Custom Label Name',
+			label: 'Nota',
 			backgroundColor: gradient,
 			pointBackgroundColor: 'white',
 			borderWidth: 1,
 			borderColor: '#911215',
-			data: [10, 8, 8, 7, 9, 10]
+			//data: [10, 8, 8, 7, 9, 10]
+			data: [{% for data in notas_semestre %}{{data}}{% endfor %}]
     }]
 };
 
 var options = {
-	responsive: true,
+	responsive: false,
 	maintainAspectRatio: true,
 	animation: {
 		easing: 'easeInOutQuad',
@@ -224,7 +221,6 @@ var options = {
           },
           ticks: {
             padding: 20,
-            fontFamily: "'Rajdhani', sans-serif",
             fontColor: '#8f91ac',
             fontSize: 12,
             fontStyle: 500,
@@ -232,7 +228,8 @@ var options = {
             min: 0,
           }
         }
-      ]
+      ],
+      yAxes: [{ticks: {mirror: true, padding: -20}}],
     },
 	point: {
 		backgroundColor: 'white'

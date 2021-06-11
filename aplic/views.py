@@ -70,7 +70,8 @@ class EstatisticasView(TemplateView):
 
         context['user'] = Usuario.objects.get(matricula=self.request.user)
 
-        context['notas'] = Nota.objects.values('valor').filter(aluno=context['user'])
+        context['notas_semestre'] = Nota.objects.values_list('valor', flat=True).filter(aluno=context['user']).order_by('-create_at')
+        context['disciplinas_semestre'] = Nota.objects.values_list('turma__disciplina__nome', flat=True).filter(aluno=context['user']).order_by('-create_at')
 
         return context
 

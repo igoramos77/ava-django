@@ -27,6 +27,8 @@ class Curso(models.Model):
     nome = models.CharField('Nome', max_length=100)
     descricao = models.TextField('Descricao', max_length=500)
     carga_horaria = models.IntegerField('Carga Horária')
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Curso'
@@ -47,6 +49,8 @@ class Pessoa(models.Model):
     twitter = models.CharField('Twitter', blank=True, null=True, max_length=155)
     instagram = models.CharField('Instagram', blank=True, null=True, max_length=155)
     linkedin = models.CharField('Linkedin', blank=True, null=True, max_length=155)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -64,6 +68,8 @@ class Professor(Pessoa):
     )
     titulacao = models.CharField('Titulação', max_length=100, choices=OPCOES)
     curso = models.ForeignKey(Curso, null=True, on_delete=models.SET_NULL)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Professor'
@@ -79,6 +85,8 @@ class Usuario(AbstractUser):
     username = None
     first_name = models.CharField('Nome', max_length=55)
     last_name = models.CharField('Sobrenome', max_length=155)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
 
@@ -102,6 +110,8 @@ class Disciplina(models.Model):
     obrigatoria = models.BooleanField('Obrigatória', default=True)
     ementa = models.TextField('Ementa', blank=True, max_length=500)
     bibliografia = models.TextField('Bibliografia', blank=True, max_length=500)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Disciplina'
@@ -149,6 +159,8 @@ class Turma(models.Model):
     horario_de_inicio = models.TimeField('Horário de início')
     horario_de_termino = models.TimeField('Horário de término')
     alunos = models.ManyToManyField(Usuario)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Turma'
@@ -167,6 +179,8 @@ class Arquivo(models.Model):
     nome_do_arquivo = models.FileField('Nome do Arquivo', max_length=100, upload_to='uploads/%Y/%m/%d/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Arquivo'
@@ -194,6 +208,8 @@ class Avaliacao(models.Model):
     valor_avaliacao = models.DecimalField('Valor Avaliação', max_digits=5, decimal_places=2)
     turma = models.ForeignKey(Turma, null=True, on_delete=models.SET_NULL)
     orientacoes = models.TextField('Orientações', blank=True, max_length=500)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Avaliação'
@@ -208,6 +224,8 @@ class Nota(models.Model):
     avaliacao = models.ForeignKey(Avaliacao, null=True, on_delete=models.SET_NULL)
     aluno = models.ForeignKey(Usuario, null=True, on_delete=models.SET_NULL)
     valor = models.DecimalField('Nota', max_digits=5, decimal_places=2)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Nota'
@@ -224,6 +242,8 @@ class Configuracoes(models.Model):
     )
     ano_currente = models.IntegerField('Ano currente', max_length=4)
     semestre_currente = models.CharField('Semestre', max_length=2, choices=SEMESTRES)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Configuração'
