@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
             <div class="col col-d-80 col-t-80 col-m-100 head">
               <div class="content-col">
                 <h1>{{turma.disciplina.nome}}</h1>
-                <p>Seja bem-vindo de volta, Igor Brown! Sua última aula assistida foi: Aula 7 - Adobe XD. <a href="#">Você deseja retornar a aula?</a></p>
+                <p>{% trans 'Seja bem-vindo de volta, Igor Brown! Sua última aula assistida foi: Aula 7 - Adobe XD.' %} <a href="#">{% trans 'Você deseja retornar a aula?' %}</a></p>
               </div>
             </div>
             <div class="col col-d-20 col-t-20 col-m-100 right middle t-dnone m-dnone">

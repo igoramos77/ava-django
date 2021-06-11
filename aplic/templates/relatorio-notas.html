@@ -1,0 +1,75 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <title>Ava - Universidade de Vassouras</title>
+
+  <style>
+    * {
+      font-family: 'Open Sans', sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .logo {
+      display: flex;
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+    .logo p {
+      text-align: center;
+      justify-content: center;
+    }
+</style>
+
+</head>
+<body>
+
+  <div class="logo">
+    <p>
+      <img src="{% static 'img/logo-uv.svg' %}" alt="">
+    </p>
+  </div>
+  <h1>Relatório de notas do semestre</h1>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Avaliação</th>
+      <th>Aluno</th>
+      <th>Nota</th>
+      <th>Data</th>
+    </tr>
+    {% for a in notas %}
+    <tr>
+      <td>#{{a.id}}</td>
+      <td>{{a.avaliacao}}</td>
+      <td>{{a.aluno}}</td>
+      <td>{{a.valor}}</td>
+      <td>{{a.create_at}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+    
+</body>
+</html>
+

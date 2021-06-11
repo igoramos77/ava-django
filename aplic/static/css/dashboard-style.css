@@ -645,70 +645,8 @@ p {
     display: flex;
     justify-content: space-between;
     background: #fff;
+    padding: 1.5rem !important;
 }
-
-/* start TAB PANEL */
-.container-painel {
-  margin: 30px;
-  width: 100%;
-}
-
-.container-painel > input[type="radio"] {
-  position: absolute;
-  left: -200vw;
-}
-
-.container-painel > label {
-  position: relative;
-  display: inline-block;
-  padding: 15px 15px 25px;
-  border: 1px solid transparent;
-  border-bottom: 0;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.container-painel > label::after {
-  content: "";
-  position: absolute;
-  left: 15px;
-  bottom: 10px;
-  width: 35px;
-  height: 4px;
-  background: #8d8d8d;
-}
-
-.container-painel > label:hover, .container-painel > input:focus + label {
-  color: #06c;
-}
-
-.container-painel > label:hover::after, .container-painel > input:focus + label::after, .container-painel > input:checked + label::after {
-  background: #781e20;
-}
-
-.container-painel > input:checked + label {
-  border-color: #781e20;
-  border-bottom: 1px solid #f7f8fa;
-  margin-bottom: -1px;
-}
-
-.tab-content {
-  border-top: 1px solid #781e20;
-}
-
-.tab-content section.tab-panel {
-  padding: 30px 0;
-}
-
-/* The magic */
-.container-painel section.tab-panel {
-  display: none;
-}
-
-.container-painel > input:first-child:checked ~ .tab-content > section.tab-panel:first-child, .container-painel > input:nth-child(3):checked ~ .tab-content > section.tab-panel:nth-child(2), .container-painel > input:nth-child(5):checked ~ .tab-content > section.tab-panel:nth-child(3) {
-  display: block;
-}
-/* END TAB PANEL */
 
 .section-inner {
     display: flex;

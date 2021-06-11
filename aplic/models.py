@@ -6,7 +6,6 @@ from stdimage import StdImageField
 
 from .manager import UserManager
 
-
 def get_file_path(_instance, filename):
     ext = filename.split('.')[-1]
     filename = f'{uuid4()}.{ext}'
@@ -167,7 +166,7 @@ class Turma(models.Model):
         verbose_name_plural = 'Turmas'
 
     def __str__(self):
-        return f"{self.turma} / {self.ano} / {self.semestre} / {self.disciplina}"
+        return f"{self.disciplina}"
 
 
 class Arquivo(models.Model):
@@ -216,7 +215,7 @@ class Avaliacao(models.Model):
         verbose_name_plural = 'Avaliações'
 
     def __str__(self):
-        return f"{self.tipo} / {self.turma}"
+        return f"{self.turma}"
 
 
 class Nota(models.Model):

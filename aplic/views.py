@@ -1,5 +1,10 @@
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.template.loader import render_to_string
+from django.views.generic import TemplateView, ListView
+from django_weasyprint import WeasyTemplateView
+from weasyprint import HTML
 
 from .models import Turma, Avaliacao, Nota, Usuario, Disciplina, Curso, Configuracoes
 
@@ -62,18 +67,40 @@ class DisciplinaView(TemplateView):
         return context
 
 
-class EstatisticasView(TemplateView):
+class EstatisticasView(ListView):
     template_name = 'estatisticas.html'
+    paginate_by = 1
+    ordering = ['id']
+    model = Nota
 
     def get_context_data(self, **kwargs):
         context = super(EstatisticasView, self).get_context_data(**kwargs)
 
         context['user'] = Usuario.objects.get(matricula=self.request.user)
 
+        context['avaliacoes'] = Nota.objects.filter(aluno=context['user']).order_by('create_at').all()
+
         context['notas_semestre'] = Nota.objects.values_list('valor', flat=True).filter(aluno=context['user']).order_by('-create_at')
         context['disciplinas_semestre'] = Nota.objects.values_list('turma__disciplina__nome', flat=True).filter(aluno=context['user']).order_by('-create_at')
 
         return context
+
+
+class RelatorioNotasView(WeasyTemplateView):
+
+    def get(self, request, *args, **kwargs):
+        notas = Nota.objects.order_by('create_at')
+
+        html_string = render_to_string('relatorio-notas.html', {'notas': notas})
+
+        html = HTML(string=html_string, base_url=request.build_absolute_uri())
+        html.write_pdf(target='/tmp/relatorio-notas.pdf')
+        fs = FileSystemStorage('/tmp')
+
+        with fs.open('relatorio-notas.pdf') as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="relatorio-notas.pdf"'
+        return response
 
 
 #   VIEWSETS ----------------------------------------------------------------------------------------------------------
